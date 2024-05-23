@@ -26,10 +26,10 @@ import {
   USER_UPDATE_FAIL
 } from "../constants/userConstants";
 // import { get } from "mongoose";
-import {
-  ORDER_MY_LIST_RESET,
-  ORDER_PAY_RESET
-} from "../constants/orderConstants";
+// import {
+//   ORDER_MY_LIST_RESET,
+//   ORDER_PAY_RESET
+// } from "../constants/orderConstants";
 
 // getState allows us to get our entire state tree
 export const login = (email, password) => async (dispatch) => {
@@ -65,9 +65,9 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
-  dispatch({ type: ORDER_MY_LIST_RESET });
+  // dispatch({ type: ORDER_MY_LIST_RESET });
   dispatch({ type: USER_DETAILS_RESET });
-  dispatch({ type: ORDER_PAY_RESET });
+  // dispatch({ type: ORDER_PAY_RESET });
   dispatch({ type: USER_LIST_RESET });
 };
 

@@ -1,28 +1,30 @@
-// EditUserScreen.js
+// CreateUserScreen.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateUser } from '../actions/userActions'; // Action creator for updating a user
+import { createUser } from '../actions/userActions'; // Action creator for creating a user
 
-const EditUserScreen = ({ user }) => {
+const CreateUserScreen = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser({ id: user.id, name, email }));
+    dispatch(createUser({ name, email }));
+    setName('');
+    setEmail('');
   };
 
   return (
     <div>
-      <h1>Edit User</h1>
+      <h1>Create User</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <button type="submit">Update User</button>
+        <button type="submit">Create User</button>
       </form>
     </div>
   );
 };
 
-export default EditUserScreen;
+export default CreateUserScreen;

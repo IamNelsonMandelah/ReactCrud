@@ -1,10 +1,9 @@
-import React from 'react';
 
 // src/components/UserList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const UserList = () => {
+const UserList = ({ onSelectUser, onDeleteUser }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -20,12 +19,25 @@ const UserList = () => {
     fetchUsers();
   }, []);
 
+  const handleDelete = async (userId) => {
+    try {
+      await axios.delete(`/api/users/${userId}`);
+      onDeleteUser(userId); // Notify parent component to update the user list
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   return (
     <div>
       <h2>User List</h2>
       <ul>
         {users.map(user => (
-          <li key={user._id}>{user.name}</li>
+          <li key={user._id}>
+            {user.name}
+            <button onClick={() => onSelectUser(user)}>Edit</button>
+            <button onClick={() => handleDelete(user._id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>
@@ -33,3 +45,4 @@ const UserList = () => {
 };
 
 export default UserList;
+
