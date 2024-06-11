@@ -20,7 +20,6 @@ import { useEffect, useState } from "react";
 import { IoWarning } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { listMyOrders } from "../actions/orderActions";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -46,8 +45,6 @@ const ProfileScreen = () => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
-  const orderMyList = useSelector((state) => state.orderMyList);
-  const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
 
   useEffect(() => {
     if (!userInfo) {
@@ -56,7 +53,7 @@ const ProfileScreen = () => {
       if (!user.name) {
         console.log(userInfo._id);
         dispatch(getUserDetails(userInfo._id)); // If the user info is not in the state, we want to dispatch getUserDetails
-        dispatch(listMyOrders());
+      
       } else {
         setName(user.name); // If the user info is in the state, we want to set the name and email to the user info
         console.log(user.email);
@@ -161,14 +158,8 @@ const ProfileScreen = () => {
 
         {/* Orders */}
         <Flex direction="column">
-          <Heading as="h1" mb="4">
-            My Orders
-          </Heading>
-          {loadingOrders ? (
-            <Loader />
-          ) : errorOrders ? (
-            <Message type="error">{errorOrders}</Message>
-          ) : (
+          
+          (
             <Table variant="striped">
               <Thead>
                 <Tr>
@@ -180,41 +171,9 @@ const ProfileScreen = () => {
                   <Th></Th>
                 </Tr>
               </Thead>
-              <Tbody>
-                {orders.map((order) => (
-                  <Tr key={order._id}>
-                    <Td>{order._id}</Td>
-                    <Td>{new Date(order.createdAt).toDateString()}</Td>
-                    <Td>${order.totalPrice}</Td>
-                    <Td>
-                      {order.isPaid ? (
-                        new Date(order.paidAt).toDateString()
-                      ) : (
-                        <Icon as={IoWarning} color="red" />
-                      )}
-                    </Td>
-                    <Td>
-                      {order.isDelivered ? (
-                        new Date(order.deliveredAt).toDateString()
-                      ) : (
-                        <Icon as={IoWarning} color="red" />
-                      )}
-                    </Td>
-                    <Td>
-                      <Button
-                        as={RouterLink}
-                        to={`/order/${order._id}`}
-                        colorScheme="teal"
-                        size="sm"
-                      >
-                        Details
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
+              
             </Table>
-          )}
+          )
         </Flex>
       </Grid>
     </Box>

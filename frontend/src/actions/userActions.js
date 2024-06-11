@@ -18,6 +18,9 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_RESET,
+  USER_CREATE_REQUEST,
+  USER_CREATE_SUCCESS,
+  USER_CREATE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
@@ -25,11 +28,6 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL
 } from "../constants/userConstants";
-// import { get } from "mongoose";
-// import {
-//   ORDER_MY_LIST_RESET,
-//   ORDER_PAY_RESET
-// } from "../constants/orderConstants";
 
 // getState allows us to get our entire state tree
 export const login = (email, password) => async (dispatch) => {
@@ -108,6 +106,8 @@ export const register = (name, email, password) => async (dispatch) => {
     });
   }
 };
+
+// Action creator to create a new user
 
 // export const getUserDetails = (id) => async (dispatch, getState) => {
 
@@ -217,6 +217,9 @@ export const listUsers = () => async (dispatch, getState) => {
     });
   }
 };
+
+
+
 
 export const deleteUser = (id) => async (dispatch, getState) => {
   try {

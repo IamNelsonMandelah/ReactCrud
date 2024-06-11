@@ -1,14 +1,46 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk'; // Optional, for handling asynchronous actions
-import { composeWithDevTools } from 'redux-devtools-extension'; // Optional, for Redux DevTools extension
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
 
-import { userReducer } from './reducers/userReducer'; // Import your userReducer
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+  userUpdateProfileReducer,
+  userListReducer,
+  userDeleteReducer,
+  userUpdateReducer
+} from "./reducers/userReducer";
 
-// Create the Redux store with just one reducer
+const reducers = combineReducers({
+ 
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
+
+});
+
+
+
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
+const initialState = {
+
+  userLogin: { userInfo: userInfoFromStorage }
+};
+
+const middleware = [thunk];
+
 const store = createStore(
-  userReducer, // Pass the userReducer directly
-  composeWithDevTools(applyMiddleware(thunk)) // Enhance store with middleware and Redux DevTools extension
+  reducers,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
 );
 
 export default store;
-
